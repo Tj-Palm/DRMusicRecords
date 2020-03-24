@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using DrMusic;
 using DrMusicRecords.Controllers;
@@ -20,12 +21,19 @@ namespace DrMusicUnitTest
         }
 
         [TestMethod]
-        public void TestGetAll()
+        public void TestGetAllCount()
         {
-            var musicRecord = _controller; /*= new MusicRecords("Title", "Artist", 20, 1990);*/
-            var controller = _controller.Get();
+            var musicRecord = 4; /*= new MusicRecords("Title", "Artist", 20, 1990);*/
+            var result = _controller.Get().Count();
 
-            var result = controller;
+            Assert.AreEqual(musicRecord, result);
+        }
+
+        [TestMethod]
+        public void TestGetByTitle()
+        {
+            var musicRecord = "Titles";
+            var result = _controller.GetTitleSubString("/Title/Titles");
 
             Assert.AreEqual(musicRecord, result);
         }
