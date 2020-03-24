@@ -19,7 +19,6 @@ namespace DrMusicRecords.Controllers
             new MusicRecords("Title", "Artist", 30, 1970),
             new MusicRecords("Title", "Artist", 40, 1960),
             new MusicRecords("Title", "Artist", 20, 1990),
-
         };
 
         // GET: api/MusicRecord
