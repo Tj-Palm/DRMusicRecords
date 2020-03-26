@@ -1,10 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using DrMusic;
+using Newtonsoft.Json;
 
 namespace DrMusicRecords.Controllers
 {
@@ -58,20 +63,64 @@ namespace DrMusicRecords.Controllers
 
         // POST: api/MusicRecord
         [HttpPost]
-        public void Post([FromBody] string value)
-    {
+        public void Post([FromBody] MusicRecords value)
+        {
+            Records.Add(value);
         }
 
-        // PUT: api/MusicRecord/5
+        // PUT: api/MusicRecord/Artist
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public void Put(string artistAndTitle, [FromBody] MusicRecords value)
         {
+            MusicRecords recordArtist = GetArtistSubString(artistAndTitle);
+            MusicRecords recordTitle = GetTitleSubString(artistAndTitle);
+
+            if (recordArtist != null)
+            {
+                recordArtist.Duration = value.Duration;
+                recordArtist.Artist = value.Artist;
+                recordArtist.Title = value.Title;
+                recordArtist.YearOfPublication = value.YearOfPublication;
+            }
+
+            if (recordTitle != null)
+            {
+                recordTitle.Duration = value.Duration;
+                recordTitle.Artist = value.Artist;
+                recordTitle.Title = value.Title;
+                recordTitle.YearOfPublication = value.YearOfPublication;
+            }
+        }
+
+        // PUT: api/MusicRecord/Duration
+        [HttpPut("{id}")]
+        public void Put(int durationAndYear , [FromBody] MusicRecords value)
+        {
+            MusicRecords recordDuration = GetDurationSubString(durationAndYear);
+            MusicRecords recordsYear = GetyearOfPublicationSubString(durationAndYear);
+
+            if (recordDuration != null)
+            {
+                recordDuration.Duration = value.Duration;
+                recordDuration.Artist = value.Artist;
+                recordDuration.Title = value.Title;
+                recordDuration.YearOfPublication = value.YearOfPublication;
+            }
+
+            if (recordsYear != null)
+            {
+                recordsYear.Duration = value.Duration;
+                recordsYear.Artist = value.Artist;
+                recordsYear.Title = value.Title;
+                recordsYear.YearOfPublication = value.YearOfPublication;
+            }
         }
 
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
+
         }
     }
 }
