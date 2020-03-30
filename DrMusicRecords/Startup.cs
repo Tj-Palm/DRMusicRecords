@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
+using DrMusicRecords.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -11,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace DrMusicRecords
 {
@@ -33,20 +35,20 @@ namespace DrMusicRecords
                     {
                         Title = "Music Records API",
                         Version = "v1.0",
-                        //Description = "Example of OpenAPI for api/musicRecords",
-                        //Contact = new OpenApiContact()
-                        //{
-                        //    Email = "NewEmail@email.com",
-                        //    Name = "YouNameHere",
-                        //    Url = new Uri("http://UrlToHelpPage.com"),
-                        //},
-                        //License = new OpenApiLicense()
-                        //{
-                        //    Name = "NameHere",
-                        //    Url = new Uri("http://UrlToHelpPage.com"),
-                        //}
-                       
-                   }
+                    Description = "Example of OpenAPI for api/musicRecords",
+                    Contact = new OpenApiContact()
+                    {
+                        Email = "NewEmail@email.com",
+                        Name = "YouNameHere",
+                        Url = new Uri("http://UrlToHelpPage.com"),
+                    },
+                    License = new OpenApiLicense()
+                    {
+                        Name = "NameHere",
+                        Url = new Uri("http://UrlToHelpPage.com"),
+                    }
+
+                }
                 );
             });
         }
