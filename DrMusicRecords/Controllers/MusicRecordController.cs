@@ -39,13 +39,13 @@ namespace DrMusicRecords.Controllers
             return Records.Find(i => i.Id == id);
         }
 
-        //GET: api/MusicRecord/id
-        [HttpGet("{id}")]
-        public IEnumerable<MusicRecords> GetListById(int id)
-        {
-            var newList = Records.Find(i => i.Id == id);
-            yield return newList;
-        }
+        ////GET: api/MusicRecord/id
+        //[HttpGet("{id}")]
+        //public IEnumerable<MusicRecords> GetListById(int id)
+        //{
+        //    var newList = Records.Find(i => i.Id == id);
+        //    yield return newList;
+        //}
 
         //GET: api/MusicRecord/Title/Title
         [HttpGet]
@@ -87,7 +87,7 @@ namespace DrMusicRecords.Controllers
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] MusicRecords value)
         {
-            MusicRecords item = Get(id);
+            MusicRecords item = GetById(id);
             if (item != null)
             {
                 item.Title = value.Title;
@@ -101,7 +101,7 @@ namespace DrMusicRecords.Controllers
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
-            MusicRecords item = Get(id);
+            MusicRecords item = GetById(id);
             Records.Remove(item);
         }
     }

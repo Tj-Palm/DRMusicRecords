@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
@@ -9,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.OpenApi.Models;
 
 namespace DrMusicRecords
 {
@@ -25,6 +27,28 @@ namespace DrMusicRecords
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo
+                    {
+                        Title = "Music Records API",
+                        Version = "v1.0",
+                        //Description = "Example of OpenAPI for api/musicRecords",
+                        //Contact = new OpenApiContact()
+                        //{
+                        //    Email = "NewEmail@email.com",
+                        //    Name = "YouNameHere",
+                        //    Url = new Uri("http://UrlToHelpPage.com"),
+                        //},
+                        //License = new OpenApiLicense()
+                        //{
+                        //    Name = "NameHere",
+                        //    Url = new Uri("http://UrlToHelpPage.com"),
+                        //}
+                       
+                   }
+                );
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -34,6 +58,11 @@ namespace DrMusicRecords
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Music Records API v1.0")
+            );
 
             app.UseRouting();
 

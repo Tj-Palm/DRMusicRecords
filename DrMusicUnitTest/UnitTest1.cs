@@ -52,7 +52,7 @@ namespace DrMusicUnitTest
         public void TestGetById()
         {
             var musicRecord = 1;
-            var result = _controller.Get(1).Id;
+            var result = _controller.GetById(2);
 
             Assert.AreEqual(musicRecord, result);
         }
@@ -87,24 +87,24 @@ namespace DrMusicUnitTest
             Assert.AreEqual(musicRecords, result);
         }
 
-        [TestMethod]
-        public void TestPut()
-        {
-            var getMusicRecord = _controller.GetListById(2);
-            var getOldMusicRecord = _controller.GetById(2);
+        //[TestMethod]
+        //public void TestPut()
+        //{
+        //    var getMusicRecord = _controller.GetListById(2);
+        //    var getOldMusicRecord = _controller.GetById(2);
 
-            foreach (var item in getMusicRecord)
-            {
-                item.Title = "hejs";
-                item.Artist = "Something";
-                item.Duration = 50;
-                item.YearOfPublication = 2020;
-            }
+        //    foreach (var item in getMusicRecord)
+        //    {
+        //        item.Title = "hejs";
+        //        item.Artist = "Something";
+        //        item.Duration = 50;
+        //        item.YearOfPublication = 2020;
+        //    }
 
-            var getNewMusicRecord = _controller.Put(2, getMusicRecord);
+        //    var getNewMusicRecord = _controller.Put(2, getMusicRecord);
             
-            MusicRecords musicRecords = _controller.Put(getOldMusicRecord, getMusicRecord);
-        }
+        //    MusicRecords musicRecords = _controller.Put(getOldMusicRecord, getMusicRecord);
+        //}
 
         [TestMethod]
         public void TestDelete()
@@ -121,22 +121,73 @@ namespace DrMusicUnitTest
         #region TestRecordClass
 
         [TestMethod]
-        public void TestForfatter()
+        public void TestAfTitle()
         {
             //Arrange
             //_mr = new MusicRecords();
 
             //Act
-            _mr.Titel = "My heart will go on";
+            _mr.Title = "My heart will go on";
 
             //Assert
-            Assert.AreEqual("My heart will go on", _mr.Titel);
+            Assert.AreEqual("My heart will go on", _mr.Title);
 
-            _bog.Forfatter = "Anders B";
+            _mr.Title = "My heart...";
 
-            Assert.AreEqual("Anders B", _bog.Forfatter);
+            Assert.AreEqual("My heart...", _mr.Title);
         }
 
+        [TestMethod]
+        public void TestAfArtist()
+        {
+            //Arrange
+            //_mr = new MusicRecords();
+
+            //Act
+            _mr.Artist = "Celine Dion";
+
+            //Assert
+            Assert.AreEqual("Celine Dion", _mr.Artist);
+        }
+
+        [TestMethod]
+        public void TestAfDuration()
+        {
+            //Arrange
+            //_mr = new MusicRecords();
+
+            //Act
+            _mr.Duration = 4;
+
+            //Assert
+            Assert.AreEqual(4, _mr.Duration);
+        }
+
+        [TestMethod]
+        public void TestAfYearOfPublication()
+        {
+            //Arrange
+            //_mr = new MusicRecords();
+
+            //Act
+            _mr.YearOfPublication = 1997;
+
+            //Assert
+            Assert.AreEqual(1997, _mr.YearOfPublication);
+        }
+
+        [TestMethod]
+        public void TestAfID()
+        {
+            //Arrange
+            //_mr = new MusicRecords();
+
+            //Act
+            _mr.Id = 1;
+
+            //Assert
+            Assert.AreEqual(1, _mr.Id);
+        }
         #endregion
 
     }
