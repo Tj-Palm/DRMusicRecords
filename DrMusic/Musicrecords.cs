@@ -8,14 +8,16 @@ namespace DrMusic
         public string Artist { get; set; }
         public int Duration { get; set; }
         public int YearOfPublication { get; set; }
+        public int Id { get; set; }
 
         public MusicRecords()
         {
             
         }
 
-        public MusicRecords(string title, string artist, int duration, int yearOfPublication)
+        public MusicRecords(int id, string title, string artist, int duration, int yearOfPublication)
         {
+            Id = id;
             Title = title;
             Artist = artist;
             Duration = duration;

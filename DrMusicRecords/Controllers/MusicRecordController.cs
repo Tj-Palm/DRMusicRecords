@@ -20,10 +20,10 @@ namespace DrMusicRecords.Controllers
 
         private static readonly List<MusicRecords> Records = new List<MusicRecords>()
         {
-            new MusicRecords("Titles", "Artist", 20, 1980),
-            new MusicRecords("Title1", "Artist", 30, 1970),
-            new MusicRecords("Title2", "Artist", 40, 1960),
-            new MusicRecords("Title3", "Artist", 20, 1990),
+            new MusicRecords(1,"Titles", "Artist", 20, 1980),
+            new MusicRecords(2,"Title1", "Artist1", 30, 1970),
+            new MusicRecords(3,"Title2", "Artist2", 40, 1960),
+            new MusicRecords(4,"Title3", "Artist3", 20, 1990),
         };
 
         // GET: api/MusicRecord
@@ -32,6 +32,21 @@ namespace DrMusicRecords.Controllers
         {
             return Records;
         }
+        //GET: api/MusiciRecord/Id
+        [HttpGet ("{id}")]
+        public MusicRecords GetById(int id)
+        {
+            return Records.Find(i => i.Id == id);
+        }
+
+        //GET: api/MusicRecord/id
+        [HttpGet("{id}")]
+        public IEnumerable<MusicRecords> GetListById(int id)
+        {
+            var newList = Records.Find(i => i.Id == id);
+            yield return newList;
+        }
+
         //GET: api/MusicRecord/Title/Title
         [HttpGet]
         [Route("Title/{substring}")]
@@ -41,14 +56,14 @@ namespace DrMusicRecords.Controllers
         }
         //GET: api/MusicRecords/Artist/Artist
         [HttpGet]
-        [Route("Title/{substring}")]
+        [Route("Artist/{substring}")]
         public MusicRecords GetArtistSubString(string substring)
         {
             return Records.Find(i => i.Artist == substring);
         }
         ///GET: api/MusicRecords/Duration/Duration
         [HttpGet]
-        [Route("Title/{substring}")]
+        [Route("Duration/{substring}")]
         public MusicRecords GetDurationSubString(int substring)
         {
             return Records.Find(i => i.Duration == substring);
@@ -68,51 +83,17 @@ namespace DrMusicRecords.Controllers
             Records.Add(value);
         }
 
-        // PUT: api/MusicRecord/Artist
+        // PUT: api/Items/5
         [HttpPut("{id}")]
-        public void Put(string artistAndTitle, [FromBody] MusicRecords value)
+        public void Put(int id, [FromBody] MusicRecords value)
         {
-            MusicRecords recordArtist = GetArtistSubString(artistAndTitle);
-            MusicRecords recordTitle = GetTitleSubString(artistAndTitle);
-
-            if (recordArtist != null)
+            MusicRecords item = Get(id);
+            if (item != null)
             {
-                recordArtist.Duration = value.Duration;
-                recordArtist.Artist = value.Artist;
-                recordArtist.Title = value.Title;
-                recordArtist.YearOfPublication = value.YearOfPublication;
-            }
-
-            if (recordTitle != null)
-            {
-                recordTitle.Duration = value.Duration;
-                recordTitle.Artist = value.Artist;
-                recordTitle.Title = value.Title;
-                recordTitle.YearOfPublication = value.YearOfPublication;
-            }
-        }
-
-        // PUT: api/MusicRecord/Duration
-        [HttpPut("{id}")]
-        public void Put(int durationAndYear , [FromBody] MusicRecords value)
-        {
-            MusicRecords recordDuration = GetDurationSubString(durationAndYear);
-            MusicRecords recordsYear = GetyearOfPublicationSubString(durationAndYear);
-
-            if (recordDuration != null)
-            {
-                recordDuration.Duration = value.Duration;
-                recordDuration.Artist = value.Artist;
-                recordDuration.Title = value.Title;
-                recordDuration.YearOfPublication = value.YearOfPublication;
-            }
-
-            if (recordsYear != null)
-            {
-                recordsYear.Duration = value.Duration;
-                recordsYear.Artist = value.Artist;
-                recordsYear.Title = value.Title;
-                recordsYear.YearOfPublication = value.YearOfPublication;
+                item.Title = value.Title;
+                item.Artist = value.Artist;
+                item.Duration = value.Duration;
+                item.YearOfPublication = value.YearOfPublication;
             }
         }
 
@@ -120,7 +101,8 @@ namespace DrMusicRecords.Controllers
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
-
+            MusicRecords item = Get(id);
+            Records.Remove(item);
         }
     }
 }
