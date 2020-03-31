@@ -20,17 +20,18 @@ namespace DrMusicRecords.Controllers
         {
             _context = context;
 
-            addInitRecords();
+            //addInitRecords();
         }
 
-        private async void addInitRecords()
-        {
-            _context.MusicRecordsList.Add(new MusicRecords("Titles", "Artist1", 220, 1986));
-            _context.MusicRecordsList.Add(new MusicRecords("Titles", "Artister", 201, 1910));
-            _context.MusicRecordsList.Add(new MusicRecords("TitlesOther", "Artist2", 260, 10));
-            _context.MusicRecordsList.Add(new MusicRecords("TitlesNew", "Artist3", 280, 1960));
-            await _context.SaveChangesAsync();
-        }
+        //private async void addInitRecords()
+        //{
+        //    _context.MusicRecordsList.Add(new MusicRecords("Titles", "Artist1", 220, 1986));
+        //    _context.MusicRecordsList.Add(new MusicRecords("Titles", "Artister", 201, 1910));
+        //    _context.MusicRecordsList.Add(new MusicRecords("TitlesOther", "Artist2", 260, 10));
+        //    _context.MusicRecordsList.Add(new MusicRecords("TitlesNew", "Artist3", 280, 1960));
+        //    await _context.SaveChangesAsync();
+        //}
+
         // GET: api/MusicRecords
         [HttpGet]
         public async Task<ActionResult<IEnumerable<MusicRecordsDTO>>> GetMusicRecordsList()

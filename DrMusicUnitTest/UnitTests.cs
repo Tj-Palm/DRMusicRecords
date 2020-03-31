@@ -13,90 +13,101 @@ namespace DrMusicUnitTest
     {
         private MusicRecordsContext _context;
         private DrMusic.MusicRecords _mr;
+        private MusicRecordsDTO _mrdto;
         private MusicRecordsController _controller;
+        //private MusicRecordController _controller;
 
         [TestInitialize]
         public void Initialize()
         {
             _mr = new DrMusic.MusicRecords();
             _controller = new MusicRecordsController(_context);
+            //_controller = new MusicRecordController();
+
+            _controller.PostMusicRecords(new MusicRecordsDTO{Title = "Hej", Duration = 20, Artist = "Bo", YearOfPublication = 2020});
+            _controller.PostMusicRecords(new MusicRecordsDTO{ Title = "Hej1", Duration = 20, Artist = "Bo1", YearOfPublication = 2019 });
+            _controller.PostMusicRecords(new MusicRecordsDTO{ Title = "Hej2", Duration = 20, Artist = "Bo2", YearOfPublication = 2018 });
+            _controller.PostMusicRecords(new MusicRecordsDTO{ Title = "Hej", Duration = 20, Artist = "Bo", YearOfPublication = 2018 });
         }
+
+        #region MusicRecordController
+
 
         #region GetTests
-        [TestMethod]
-        public void TestGetAllCount()
-        {
-            var musicRecord = 4;
-            var result = _controller.GetMusicRecords(4);
+        //[TestMethod]
+        //public void TestGetAllCount()
+        //{
+        //    var musicRecord = 4;
+        //    var result = _controller.GetMusicRecords(4);
 
-            Assert.AreEqual(musicRecord, result);
-        }
+        //    Assert.AreEqual(musicRecord, result);
+        //}
 
-        [TestMethod]
-        public void TestGetByTitle()
-        {
-            var musicRecord = "Titles";
-            var result = _controller.GetTitleSubString("Titles").Title;
+        //[TestMethod]
+        //public void TestGetByTitle()
+        //{
+        //    var musicRecord = "Titles";
+        //    var result = _controller.GetTitleSubString("Titles").Title;
 
-            Assert.AreEqual(musicRecord, result);
-        }
+        //    Assert.AreEqual(musicRecord, result);
+        //}
 
-        [TestMethod]
-        public void TestGetByDuration()
-        {
-            var musicRecord = 20;
-            var result = _controller.GetDurationSubString(20).Duration;
+        //[TestMethod]
+        //public void TestGetByDuration()
+        //{
+        //    var musicRecord = 20;
+        //    var result = _controller.GetDurationSubString(20).Duration;
 
-            Assert.AreEqual(musicRecord, result);
-        }
+        //    Assert.AreEqual(musicRecord, result);
+        //}
 
-        [TestMethod]
-        public void TestGetById()
-        {
-            var musicRecord = 1;
-            var result = _controller.GetById(2);
+        //[TestMethod]
+        //public void TestGetById()
+        //{
+        //    var musicRecord = 1;
+        //    var result = _controller.GetById(2);
 
-            Assert.AreEqual(musicRecord, result);
-        }
+        //    Assert.AreEqual(musicRecord, result);
+        //}
 
-        [TestMethod]
-        public void TestGetByArtist()
-        {
-            var musicRecord = "Artist";
-            var result = _controller.GetArtistSubString("Artist").Artist;
+        //[TestMethod]
+        //public void TestGetByArtist()
+        //{
+        //    var musicRecord = "Artist";
+        //    var result = _controller.GetArtistSubString("Artist").Artist;
 
-            Assert.AreEqual(musicRecord, result);
-        }
+        //    Assert.AreEqual(musicRecord, result);
+        //}
 
-        [TestMethod]
-        public void TestGetListArtist()
-        {
-            var musicRercords = _;
-            var result = _controller.GetArtistListSubstring("Artist");
+        //[TestMethod]
+        //public void TestGetListArtist()
+        //{
+        //    var musicRercords = _;
+        //    var result = _controller.GetArtistListSubstring("Artist");
 
-            Assert.AreEqual(musicRercords,result);
-        }
+        //    Assert.AreEqual(musicRercords,result);
+        //}
 
-        [TestMethod]
-        public void TestGetByYearOfPublication()
-        {
-            var musicRecord = 1990;
-            var result = _controller.GetyearOfPublicationSubString(1990).YearOfPublication;
+        //[TestMethod]
+        //public void TestGetByYearOfPublication()
+        //{
+        //    var musicRecord = 1990;
+        //    var result = _controller.GetyearOfPublicationSubString(1990).YearOfPublication;
 
-            Assert.AreEqual(musicRecord, result);
-        }
+        //    Assert.AreEqual(musicRecord, result);
+        //}
         #endregion
 
         #region PostPutDeleteTest        
-        [TestMethod]
-        public void TestPost()
-        {
-            var musicRecords = _controller.Get().Count();
-            _controller.Post(_mr);
+        //[TestMethod]
+        //public void TestPost()
+        //{
+        //    var musicRecords = _controller.Get().Count();
+        //    _controller.Post(_mr);
 
-            var result = musicRecords;
-            Assert.AreEqual(musicRecords, result);
-        }
+        //    var result = musicRecords;
+        //    Assert.AreEqual(musicRecords, result);
+        //}
 
         //[TestMethod]
         //public void TestPut()
@@ -113,19 +124,22 @@ namespace DrMusicUnitTest
         //    }
 
         //    var getNewMusicRecord = _controller.Put(2, getMusicRecord);
-            
+
         //    MusicRecords musicRecords = _controller.Put(getOldMusicRecord, getMusicRecord);
         //}
 
-        [TestMethod]
-        public void TestDelete()
-        {
-            var musicRecords = _controller.Get().Count();
-            _controller.Delete(2);
-            var result = musicRecords;
+        //[TestMethod]
+        //public void TestDelete()
+        //{
+        //    var musicRecords = _controller.Get().Count();
+        //    _controller.Delete(2);
+        //    var result = musicRecords;
 
-            Assert.AreEqual(musicRecords, result);
-        }
+        //    Assert.AreEqual(musicRecords, result);
+        //}
+
+        #endregion
+       
 
         #endregion
 
@@ -199,6 +213,19 @@ namespace DrMusicUnitTest
             //Assert
             Assert.AreEqual(1, _mr.Id);
         }
+        #endregion
+
+        #region MusicRecordsController Unit-Test
+
+        [TestMethod]
+        public void TestGetAllCount()
+        {
+            var musicRecord = 4;
+            var result = _controller.GetMusicRecordsList().Result;
+
+            Assert.AreEqual(musicRecord, result);
+        }
+
         #endregion
 
     }
