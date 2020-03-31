@@ -54,13 +54,22 @@ namespace DrMusicRecords.Controllers
         {
             return Records.Find(i => i.Title == substring);
         }
-        //GET: api/MusicRecords/Artist/Artist
+        ////GET: api/MusicRecords/Artist/Artist
+        //[HttpGet]
+        //[Route("Artist/{substring}")]
+        //public MusicRecords GetArtistSubString(string substring)
+        //{
+        //    return Records.Find(i => i.Artist == substring);
+        //}
+
         [HttpGet]
         [Route("Artist/{substring}")]
-        public MusicRecords GetArtistSubString(string substring)
+        public IEnumerable<MusicRecords> GetArtistListSubstring(string substring)
         {
-            return Records.Find(i => i.Artist == substring);
+            return Records.FindAll(i => i.Artist.Contains(substring));
         }
+
+
         ///GET: api/MusicRecords/Duration/Duration
         [HttpGet]
         [Route("Duration/{substring}")]
