@@ -67,6 +67,15 @@ namespace DrMusicUnitTest
         }
 
         [TestMethod]
+        public void TestGetListArtist()
+        {
+            var musicRercords = _;
+            var result = _controller.GetArtistListSubstring("Artist");
+
+            Assert.AreEqual(musicRercords,result);
+        }
+
+        [TestMethod]
         public void TestGetByYearOfPublication()
         {
             var musicRecord = 1990;
