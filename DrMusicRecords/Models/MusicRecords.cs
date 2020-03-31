@@ -20,9 +20,9 @@ namespace DrMusicRecords.Models
 
         }
 
-        public MusicRecords(int id, string title, string artist, int duration, int yearOfPublication)
+        public MusicRecords(string title, string artist, int duration, int yearOfPublication)
         {
-            Id = id;
+            //Id = id;
             Title = title;
             Artist = artist;
             Duration = duration;

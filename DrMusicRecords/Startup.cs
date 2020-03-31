@@ -1,19 +1,13 @@
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Threading.Tasks;
-using DrMusic;
+using DrMusicRecords.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Microsoft.EntityFrameworkCore;
-using DrMusicRecords.Models;
+using DrMusic;
 
 namespace DrMusicRecords
 {
@@ -29,7 +23,7 @@ namespace DrMusicRecords
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
+            services.AddDbContext<MusicRecordsContext>(opt => opt.UseInMemoryDatabase("MusicRecords"));
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
