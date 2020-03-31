@@ -4,20 +4,22 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using DrMusic;
 using DrMusicRecords.Controllers;
 using Newtonsoft.Json;
+using DrMusicRecords.Models;
 
 namespace DrMusicUnitTest
 {
     [TestClass]
     public class UnitTests
     {
-        private MusicRecords _mr;
-        private MusicRecordController _controller;
+        private MusicRecordsContext _context;
+        private DrMusic.MusicRecords _mr;
+        private MusicRecordsController _controller;
 
         [TestInitialize]
         public void Initialize()
         {
-            _mr = new MusicRecords();
-            _controller = new MusicRecordController();
+            _mr = new DrMusic.MusicRecords();
+            _controller = new MusicRecordsController(_context);
         }
 
         #region GetTests
@@ -25,7 +27,7 @@ namespace DrMusicUnitTest
         public void TestGetAllCount()
         {
             var musicRecord = 4;
-            var result = _controller.Get().Count();
+            var result = _controller.GetMusicRecords(4);
 
             Assert.AreEqual(musicRecord, result);
         }

@@ -8,7 +8,7 @@ namespace DrMusicRecords.Models
     public class MusicRecords
     {
 
-
+        public string Secret { get; set; }
         public string Title { get; set; }
         public string Artist { get; set; }
         public int Duration { get; set; }

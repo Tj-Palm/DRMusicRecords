@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -19,23 +20,24 @@ namespace DrMusicRecords.Controllers
         {
             _context = context;
 
-            _context.MusicRecordsList.Add(new MusicRecords( "Titles", "Artist1", 220, 1986));
-            _context.MusicRecordsList.Add(new MusicRecords( "Titles", "Artister", 201, 1910));
-            _context.MusicRecordsList.Add(new MusicRecords( "TitlesSomething", "Artist2", 210, 180));
-            _context.MusicRecordsList.Add(new MusicRecords( "TitlesOther", "Artist2", 260, 10));
-            _context.MusicRecordsList.Add(new MusicRecords( "TitlesNew", "Artist3", 280, 1960));
+            //PostMusicRecords(new MusicRecords("Titles", "Artist1", 220, 1986));
+            //PostMusicRecords(new MusicRecords("Titles", "Artister", 201, 1910));
+            //PostMusicRecords(new MusicRecords("TitlesOther", "Artist2", 260, 10));
+            //PostMusicRecords(new MusicRecords("TitlesNew", "Artist3", 280, 1960));
         }
 
         // GET: api/MusicRecords
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<MusicRecords>>> GetMusicRecordsList()
+        public async Task<ActionResult<IEnumerable<MusicRecordsDTO>>> GetMusicRecordsList()
         {
-            return await _context.MusicRecordsList.ToListAsync();
+            return await _context.MusicRecordsList
+                .Select(x => RecordsToDTO(x))
+                .ToListAsync();
         }
 
         // GET: api/MusicRecords/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<MusicRecords>> GetMusicRecords(int id)
+        public async Task<ActionResult<MusicRecordsDTO>> GetMusicRecords(int id)
         {
             var musicRecords = await _context.MusicRecordsList.FindAsync(id);
 
@@ -44,21 +46,32 @@ namespace DrMusicRecords.Controllers
                 return NotFound();
             }
 
-            return musicRecords;
+            return RecordsToDTO(musicRecords);
         }
 
         // PUT: api/MusicRecords/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutMusicRecords(int id, MusicRecords musicRecords)
+        public async Task<IActionResult> PutMusicRecords(int id, MusicRecordsDTO musicRecordsDTO)
         {
-            if (id != musicRecords.Id)
+            if (id != musicRecordsDTO.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(musicRecords).State = EntityState.Modified;
+            var todoRecords = await _context.MusicRecordsList.FindAsync(id);
+            if (todoRecords == null)
+            {
+                return NotFound();
+            }
+
+            todoRecords.Title = musicRecordsDTO.Title;
+            todoRecords.Duration = musicRecordsDTO.Duration;
+            todoRecords.Artist = musicRecordsDTO.Artist;
+            todoRecords.YearOfPublication = musicRecordsDTO.YearOfPublication;
+
+            _context.Entry(musicRecordsDTO).State = EntityState.Modified;
 
             try
             {
@@ -83,33 +96,50 @@ namespace DrMusicRecords.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPost]
-        public async Task<ActionResult<MusicRecords>> PostMusicRecords(MusicRecords musicRecords)
+        public async Task<ActionResult<MusicRecords>> PostMusicRecords(MusicRecordsDTO musicRecordsDTO)
         {
-            _context.MusicRecordsList.Add(musicRecords);
+            var todoRecords = new MusicRecords
+            {
+                Artist = musicRecordsDTO.Artist,
+                Title = musicRecordsDTO.Title,
+                Duration = musicRecordsDTO.Duration,
+                YearOfPublication = musicRecordsDTO.YearOfPublication
+            };
+
+            _context.MusicRecordsList.Add(todoRecords);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetMusicRecords", new { id = musicRecords.Id }, musicRecords);
+            return CreatedAtAction("GetMusicRecords", new {id = todoRecords.Id}, RecordsToDTO(todoRecords));
         }
 
         // DELETE: api/MusicRecords/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<MusicRecords>> DeleteMusicRecords(int id)
+        public async Task<IActionResult> DeleteMusicRecords(int id)
         {
-            var musicRecords = await _context.MusicRecordsList.FindAsync(id);
-            if (musicRecords == null)
+            var todoRecords = await _context.MusicRecordsList.FindAsync(id);
+            if (todoRecords == null)
             {
                 return NotFound();
             }
 
-            _context.MusicRecordsList.Remove(musicRecords);
+            _context.MusicRecordsList.Remove(todoRecords);
             await _context.SaveChangesAsync();
 
-            return musicRecords;
+            return NoContent();
         }
 
         private bool MusicRecordsExists(int id)
         {
             return _context.MusicRecordsList.Any(e => e.Id == id);
         }
+
+        private static MusicRecordsDTO RecordsToDTO(MusicRecords musicRecords) => new MusicRecordsDTO
+        {
+            Id = musicRecords.Id,
+            Duration = musicRecords.Duration,
+            YearOfPublication = musicRecords.YearOfPublication,
+            Artist = musicRecords.Artist,
+            Title = musicRecords.Title
+        };
     }
 }

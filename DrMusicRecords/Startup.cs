@@ -43,7 +43,6 @@ namespace DrMusicRecords
                         Name = "NameHere",
                         Url = new Uri("http://UrlToHelpPage.com"),
                     }
-
                 }
                 );
             });
