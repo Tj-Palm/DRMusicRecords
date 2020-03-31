@@ -10,7 +10,7 @@ using DrMusicRecords.Models;
 
 namespace DrMusicRecords.Controllers
 {
-    [Route("api/test/[controller]")]
+    [Route("api/DB/[controller]")]
     [ApiController]
     public class MusicRecordsController : ControllerBase
     {
@@ -20,12 +20,17 @@ namespace DrMusicRecords.Controllers
         {
             _context = context;
 
-            //PostMusicRecords(new MusicRecords("Titles", "Artist1", 220, 1986));
-            //PostMusicRecords(new MusicRecords("Titles", "Artister", 201, 1910));
-            //PostMusicRecords(new MusicRecords("TitlesOther", "Artist2", 260, 10));
-            //PostMusicRecords(new MusicRecords("TitlesNew", "Artist3", 280, 1960));
+            addInitRecords();
         }
 
+        private async void addInitRecords()
+        {
+            _context.MusicRecordsList.Add(new MusicRecords("Titles", "Artist1", 220, 1986));
+            _context.MusicRecordsList.Add(new MusicRecords("Titles", "Artister", 201, 1910));
+            _context.MusicRecordsList.Add(new MusicRecords("TitlesOther", "Artist2", 260, 10));
+            _context.MusicRecordsList.Add(new MusicRecords("TitlesNew", "Artist3", 280, 1960));
+            await _context.SaveChangesAsync();
+        }
         // GET: api/MusicRecords
         [HttpGet]
         public async Task<ActionResult<IEnumerable<MusicRecordsDTO>>> GetMusicRecordsList()
