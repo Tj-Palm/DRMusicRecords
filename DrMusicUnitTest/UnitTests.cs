@@ -8,7 +8,7 @@ using Newtonsoft.Json;
 namespace DrMusicUnitTest
 {
     [TestClass]
-    public class UnitTest1
+    public class UnitTests
     {
         private MusicRecords _mr;
         private MusicRecordController _controller;
